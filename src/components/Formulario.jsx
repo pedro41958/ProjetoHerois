@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { z } from "zod";
+import { set, z } from "zod";
 
+/*
 const schema = z.object({
   nome: z.string().min(3, "Nome muito curto"),
   email: z.string().email("Email inválido"),
@@ -74,5 +75,43 @@ export default function Formulario() {
         </button>
       </form>
     </div>
+  );
+}
+*/
+
+export default function Formulario() {
+  const [dados, setDados] = useState({
+    nome: "",
+    classe: "",
+  });
+
+  function handleChange(e) {
+    const novosDados = {
+      ...dados,
+      [e.target.name]: e.target.value,
+    };
+
+    setDados(novosDados);
+
+    console.log(novosDados);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(dados);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="nome">
+        Nome
+        <input name="nome" value={dados.nome} onChange={handleChange} />
+      </label>
+      <label htmlFor="nome">
+        Classe
+        <input name="classe" value={dados.classe} onChange={handleChange} />
+      </label>
+      <button type="submit">Enviar</button>
+    </form>
   );
 }

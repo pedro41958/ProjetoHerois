@@ -3,12 +3,14 @@ import Teste from "./components/Teste.jsx";
 import Login from "./components/Login.jsx";
 import Cadastro from "./components/Cadastrar.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
+import Formulario from "./components/Formulario.jsx";
 
 import Inicio from "./assets/avatar/silencesuzuka.jpg";
 import Meio from "./assets/avatar/specialweek.jpg";
 import Final from "./assets/avatar/goldship.jpg";
 
 function App() {
+  /*
   const listaHerois = [
     {
       id: 1,
@@ -57,6 +59,8 @@ function App() {
       </div>
     </>
   );
+  */
+  return <Formulario />;
 }
 
 export default App;

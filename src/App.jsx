@@ -10,7 +10,6 @@ import Meio from "./assets/avatar/specialweek.jpg";
 import Final from "./assets/avatar/goldship.jpg";
 
 function App() {
-  /*
   const listaHerois = [
     {
       id: 1,
@@ -59,8 +58,6 @@ function App() {
       </div>
     </>
   );
-  */
-  return <Formulario />;
 }
 
 export default App;

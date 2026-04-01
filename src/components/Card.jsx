@@ -1,7 +1,7 @@
 import { useState } from "react";
 import StatusBadge from "./StatusBadge";
 
-function Card({ heroi }) {
+function Card({ heroi, excluirHeroi }) {
   const [xp, setXp] = useState(0);
   const [nivel, setNivel] = useState(0);
   const [mostrarMsg, setMostrarMsg] = useState(false);
@@ -56,7 +56,7 @@ function Card({ heroi }) {
         <StatusBadge tipo={heroi.status} />
       </div>
       <div
-        className={`gap-1 shadow-md fixed top-1 left-1/2 -translate-x-1/2 flex justify-center mb-4 bg-white border-3 border-green-400 text-black px-5 py-2.5 rounded-lg ${mostrarMsg ? "" : "hidden"}`}
+        className={`gap-1 shadow-md fixed top-3 left-1/2 -translate-x-1/2 flex justify-center mb-4 bg-white border-3 border-green-400 text-black px-5 py-2.5 rounded-lg ${mostrarMsg ? "" : "hidden"}`}
       >
         <strong>{heroi.nome}</strong> subiu de nível!
       </div>
@@ -64,7 +64,7 @@ function Card({ heroi }) {
       <img
         src={heroi.imagem}
         alt={heroi.nome}
-        style={{ width: "100%", borderRadius: "8px" }}
+        className={`w-full rounded-full mx-auto ${cor}`}
       />
       <h2>{heroi.nome}</h2>
       <p>Classe: {heroi.classe}</p>
@@ -90,6 +90,13 @@ function Card({ heroi }) {
         onClick={() => alert(`Você recrutou ${heroi.nome} para o seu time!`)}
       >
         Recrutar!
+      </button>
+
+      <button
+        className="m-2.5 bg-blue-600 text-white py-2 px-4 rounded"
+        onClick={() => excluirHeroi(heroi.id)}
+      >
+        Excluir
       </button>
     </div>
   );

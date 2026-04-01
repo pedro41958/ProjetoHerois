@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { set, z } from "zod";
+import { z } from "zod";
 
-/*
 const schema = z.object({
-  nome: z.string().min(3, "Nome muito curto"),
-  email: z.string().email("Email inválido"),
-  senha: z.string().min(6, "Senha mínima de 6 caracteres"),
+  nome: z.string().min(3, "Nome muito curto!"),
+  classe: z.string().min(4, "Classe muito curta!"),
 });
 
-export default function Formulario() {
+export default function Formulario({ herois, setHerois }) {
   const [formData, setFormData] = useState({
+    id: "",
     nome: "",
-    email: "",
-    senha: "",
+    classe: "",
+    imagem: "",
+    status: "",
   });
 
   const [erros, setErros] = useState({});
@@ -32,16 +32,26 @@ export default function Formulario() {
       setErros(result.error.format());
     } else {
       setErros({});
+
+      const novoHeroi = {
+        ...formData,
+        id: herois.length + 1,
+      };
+
+      setHerois([...herois, novoHeroi]);
+
       alert("Formulário enviado com sucesso!");
     }
   }
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center bg-gray-100 p-5">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-md w-80"
       >
+        <input type="hidden" name="id" />
+
         <h2 className="text-x1 font-bold mb-4">Cadastro</h2>
         <input
           type="text"
@@ -53,32 +63,40 @@ export default function Formulario() {
         {erros.nome && <p className="text-red-500">{erros.nome._errors}</p>}
 
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
+          type="text"
+          name="classe"
+          placeholder="Classe"
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2"
         />
-        {erros.email && <p className="text-red-500">{erros.email._errors}</p>}
+        {erros.classe && <p className="text-red-500">{erros.classe._errors}</p>}
 
         <input
-          type="password"
-          name="senha"
-          placeholder="Senha"
+          type="file"
+          name="imagem"
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2"
         />
-        {erros.senha && <p className="text-red-500">{erros.senha._errors}</p>}
 
-        <button className="m-2.5 bg-blue-600 text-white py-2 px-4 rounded">
-          Enviar!
+        <select
+          name="status"
+          onChange={handleChange}
+          className="border p-2 rounded w-full mb-2"
+        >
+          <option value="online">Online</option>
+          <option value="ausente">Ausente</option>
+          <option value="offline">Offline</option>
+        </select>
+
+        <button className="w-full bg-blue-600 text-white py-2 px-4 rounded">
+          Enviar
         </button>
       </form>
     </div>
   );
 }
-*/
 
+/*
 export default function Formulario() {
   const [dados, setDados] = useState({
     nome: "",
@@ -111,7 +129,11 @@ export default function Formulario() {
         Classe
         <input name="classe" value={dados.classe} onChange={handleChange} />
       </label>
+
+      <input type="file" />
+
       <button type="submit">Enviar</button>
     </form>
   );
 }
+*/

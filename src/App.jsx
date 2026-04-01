@@ -49,32 +49,6 @@ function App() {
     setLista(heroisPadrao);
   }
 
-  const containerStyle = {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    fontFamily: "sans-serif",
-  };
-
-  const filtrosStyle = {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
-    gap: "10px",
-    justifyContent: "center",
-    maxWidth: "400px",
-    margin: "0 auto",
-  };
-
-  const btnFilter = {
-    color: "white",
-    backgroundColor: "#404040",
-    borderRadius: "15px",
-    padding: "8px 15px",
-    cursor: "pointer",
-    border: "none",
-    margin: "30px 0",
-  };
-
   useEffect(() => {
     localStorage.setItem("herois", JSON.stringify(herois));
     setLista(herois);
@@ -87,24 +61,39 @@ function App() {
       </div>
       <div className="text-center">
         <h1 className="font-semibold">Recrute seu time</h1>
-        <div style={filtrosStyle}>
-          <button style={btnFilter} onClick={filtrarInicio}>
+        <div className="grid grid-cols-5 gap-2.5 justify-center max-w-100 mx-auto">
+          <button
+            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            onClick={filtrarInicio}
+          >
             Início
           </button>
-          <button style={btnFilter} onClick={filtrarMeio}>
+          <button
+            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            onClick={filtrarMeio}
+          >
             Meio
           </button>
-          <button style={btnFilter} onClick={filtrarFinal}>
+          <button
+            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            onClick={filtrarFinal}
+          >
             Final
           </button>
-          <button style={btnFilter} onClick={mostrarTodos}>
+          <button
+            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            onClick={mostrarTodos}
+          >
             Todos
           </button>
-          <button style={btnFilter} onClick={restaurarPadrao}>
-            Restaurar padrão
+          <button
+            className="text-white bg-pink-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            onClick={restaurarPadrao}
+          >
+            Padrão
           </button>
         </div>
-        <div style={containerStyle}>
+        <div className="flex flex-wrap justify-center">
           {lista.map((heroi) => (
             <Card key={heroi.id} heroi={heroi} excluirHeroi={excluirHeroi} />
           ))}

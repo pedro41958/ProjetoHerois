@@ -37,7 +37,7 @@ function Card({ heroi, excluirHeroi }) {
 
   return (
     <div
-      className={`${cor} rounded-xl p-4 m-2.5 shadow-md text-center w-50`}
+      className={`${cor} rounded-xl p-4 m-2.5 shadow-md text-center w-50 bg-white`}
       onClick={(e) => {
         const clicouEmBotao = e.target.closest("button");
 
@@ -60,14 +60,20 @@ function Card({ heroi, excluirHeroi }) {
       >
         <strong>{heroi.nome}</strong> subiu de nível!
       </div>
-      <div>Nível: {nivel}</div>
+      <div>
+        Nível: <strong>{nivel}</strong>
+      </div>
       <img
         src={heroi.imagem}
         alt={heroi.nome}
         className={`w-full rounded-full mx-auto ${cor}`}
       />
-      <h2>{heroi.nome}</h2>
-      <p>Classe: {heroi.classe}</p>
+      <h2>
+        <strong>{heroi.nome}</strong>
+      </h2>
+      <p>
+        Classe: <strong>{heroi.classe}</strong>
+      </p>
 
       <div className="w-full h-2.5 rounded bg-gray-600">
         <div
@@ -77,7 +83,7 @@ function Card({ heroi, excluirHeroi }) {
       </div>
 
       <button
-        className="m-2.5 bg-blue-600 text-white py-2 px-4 rounded"
+        className="m-2.5 bg-green-600 text-white py-2 px-4 rounded"
         onClick={() => setXp(xp + 10)}
       >
         +10 XP
@@ -86,14 +92,14 @@ function Card({ heroi, excluirHeroi }) {
       <div>XP: {xp}/100</div>
 
       <button
-        className="m-2.5 bg-blue-600 text-white py-2 px-4 rounded"
+        className="m-2.5 bg-purple-500 text-white py-2 px-4 rounded"
         onClick={() => alert(`Você recrutou ${heroi.nome} para o seu time!`)}
       >
         Recrutar!
       </button>
 
       <button
-        className="m-2.5 bg-blue-600 text-white py-2 px-4 rounded"
+        className="m-2.5 bg-rose-500 text-white py-2 px-4 rounded"
         onClick={() => excluirHeroi(heroi.id)}
       >
         Excluir

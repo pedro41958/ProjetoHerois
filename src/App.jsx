@@ -52,12 +52,13 @@ function App() {
   useEffect(() => {
     localStorage.setItem("herois", JSON.stringify(herois));
     setLista(herois);
+    document.title = "Heróis Recrutados: " + herois.length;
   }, [herois]);
 
   return (
-    <>
-      <div className="text-center mt-5">
-        <h1>SELEÇÃO DE CORREDORA</h1>
+    <div className="bg-purple-200">
+      <div className="text-center py-2">
+        <h1 className="font-bold">SELEÇÃO DE CORREDORA</h1>
       </div>
       <div className="text-center">
         <h1 className="font-semibold">Recrute seu time</h1>
@@ -100,7 +101,7 @@ function App() {
         </div>
         <Formulario herois={herois} setHerois={setHerois} />
       </div>
-    </>
+    </div>
   );
 }
 

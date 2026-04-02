@@ -39,16 +39,17 @@ export default function Formulario({ herois, setHerois }) {
       };
 
       setHerois([...herois, novoHeroi]);
+      console.log("Um novo herói foi validado e salvo!");
 
       alert("Formulário enviado com sucesso!");
     }
   }
 
   return (
-    <div className="flex items-center justify-center bg-gray-100 p-5">
+    <div className="flex items-center justify-center bg-pink-100 p-5">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-80"
+        className="bg-white p-6 rounded shadow-md w-80 border-4 border-gray-400"
       >
         <input type="hidden" name="id" />
 
@@ -88,7 +89,7 @@ export default function Formulario({ herois, setHerois }) {
           <option value="offline">Offline</option>
         </select>
 
-        <button className="w-full bg-blue-600 text-white py-2 px-4 rounded">
+        <button className="w-full bg-purple-500 text-white py-2 px-4 rounded">
           Enviar
         </button>
       </form>

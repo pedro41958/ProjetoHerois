@@ -49,7 +49,7 @@ export default function Formulario({ herois, setHerois }) {
     <div className="flex items-center justify-center bg-gray-200 p-5 shadow-md">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-80 border-4 border-gray-400"
+        className="bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400"
       >
         <input type="hidden" name="id" />
 

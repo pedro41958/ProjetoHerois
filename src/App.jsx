@@ -1,5 +1,6 @@
 import Card from "./components/Card.jsx";
 import Formulario from "./components/Formulario.jsx";
+import Logo from "./assets/avatar/logo.webp";
 import heroisPadrao from "./components/HeroisPadrao.jsx";
 
 import { useEffect, useState } from "react";
@@ -56,7 +57,10 @@ function App() {
   }, [herois]);
 
   return (
-    <div className="bg-purple-200">
+    <div className="bg-white">
+      <div className="mx-auto w-130">
+        <img src={Logo} alt="Logo" />
+      </div>
       <div className="text-center py-2">
         <h1 className="font-bold">SELEÇÃO DE CORREDORA</h1>
       </div>
@@ -64,31 +68,31 @@ function App() {
         <h1 className="font-semibold">Recrute seu time</h1>
         <div className="grid grid-cols-5 gap-2.5 justify-center max-w-100 mx-auto">
           <button
-            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
             onClick={filtrarInicio}
           >
             Início
           </button>
           <button
-            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
             onClick={filtrarMeio}
           >
             Meio
           </button>
           <button
-            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
             onClick={filtrarFinal}
           >
             Final
           </button>
           <button
-            className="text-white bg-purple-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
             onClick={mostrarTodos}
           >
             Todos
           </button>
           <button
-            className="text-white bg-pink-500 rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
+            className="text-white bg-[#D55883] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
             onClick={restaurarPadrao}
           >
             Padrão

@@ -37,7 +37,7 @@ function Card({ heroi, excluirHeroi }) {
 
   return (
     <div
-      className={`${cor} rounded-xl p-4 m-2.5 shadow-md text-center w-50 bg-white`}
+      className={`${cor} rounded-xl p-4 m-2.5 shadow-md text-center w-50 bg-white `}
       onClick={(e) => {
         const clicouEmBotao = e.target.closest("button");
 

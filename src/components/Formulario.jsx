@@ -46,7 +46,7 @@ export default function Formulario({ herois, setHerois }) {
   }
 
   return (
-    <div className="flex items-center justify-center bg-pink-100 p-5">
+    <div className="flex items-center justify-center bg-gray-200 p-5">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-md w-80 border-4 border-gray-400"

@@ -66,12 +66,12 @@ function Card({ heroi, excluirHeroi }) {
       <img
         src={heroi.imagem}
         alt={heroi.nome}
-        className={`w-full rounded-full mx-auto ${cor}`}
+        className={`w-full rounded-full mx-auto ${cor} m-2 shadow-md`}
       />
       <h2>
         <strong>{heroi.nome}</strong>
       </h2>
-      <p>
+      <p className="m-5">
         Classe: <strong>{heroi.classe}</strong>
       </p>
 
@@ -83,7 +83,7 @@ function Card({ heroi, excluirHeroi }) {
       </div>
 
       <button
-        className="m-2.5 bg-green-600 text-white py-2 px-4 rounded"
+        className="m-2.5 bg-green-400 text-white py-2 px-4 rounded shadow-md"
         onClick={() => setXp(xp + 10)}
       >
         +10 XP
@@ -92,14 +92,14 @@ function Card({ heroi, excluirHeroi }) {
       <div>XP: {xp}/100</div>
 
       <button
-        className="m-2.5 bg-purple-500 text-white py-2 px-4 rounded"
+        className="m-2.5 mt-8 bg-purple-500 text-white py-2 px-4 rounded shadow-md"
         onClick={() => alert(`Você recrutou ${heroi.nome} para o seu time!`)}
       >
         Recrutar!
       </button>
 
       <button
-        className="m-2.5 bg-rose-500 text-white py-2 px-4 rounded"
+        className="ml-2.5 mr-2.5 mb-2.5 mt-0.5 bg-rose-500 text-white py-2 px-4 rounded shadow-md"
         onClick={() => excluirHeroi(heroi.id)}
       >
         Excluir

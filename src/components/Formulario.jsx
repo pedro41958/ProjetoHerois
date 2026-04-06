@@ -46,7 +46,7 @@ export default function Formulario({ herois, setHerois }) {
   }
 
   return (
-    <div className="flex items-center justify-center bg-gray-200 p-5">
+    <div className="flex items-center justify-center bg-gray-200 p-5 shadow-md">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-md w-80 border-4 border-gray-400"
@@ -89,7 +89,7 @@ export default function Formulario({ herois, setHerois }) {
           <option value="offline">Offline</option>
         </select>
 
-        <button className="w-full bg-purple-500 text-white py-2 px-4 rounded">
+        <button className="w-full bg-purple-500 text-white py-2 px-4 rounded shadow-md">
           Enviar
         </button>
       </form>

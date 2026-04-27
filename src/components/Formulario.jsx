@@ -84,6 +84,7 @@ export default function Formulario({ herois, setHerois }) {
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2"
         >
+          <option value="null">Selecione o Status</option>
           <option value="online">Online</option>
           <option value="ausente">Ausente</option>
           <option value="offline">Offline</option>

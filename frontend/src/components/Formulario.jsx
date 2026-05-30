@@ -1,14 +1,30 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
 
 const schema = z.object({
   nome: z.string().min(3, "Mínimo 3 caracteres!"),
   classe: z.enum(["Mile", "Medium", "Long"], "Classe inválida!"),
-  poder: z.number().min(0, "Mínimo poder 0!").max(100, "Máximo poder 100!"),
+  poder: z.coerce
+    .number()
+    .min(0, "Mínimo poder 0!")
+    .max(100, "Máximo poder 100!"),
   status: z.enum(["online", "ausente", "offline"], "Status inválido!"),
 });
 
-export default function Formulario({ herois, setHerois }) {
+export default function Formulario() {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (novoHeroi) => {
+      return axios.post("http://localhost:3000/cadastrarHeroi", novoHeroi);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["herois"] });
+    },
+  });
+
   const [formData, setFormData] = useState({
     nome: "",
     classe: "",
@@ -25,21 +41,17 @@ export default function Formulario({ herois, setHerois }) {
     });
   }
 
-  function handleSubmit() {
+  function handleSubmit(e) {
     const resultado = schema.safeParse(formData);
 
     if (!resultado.success) {
-      setErros(result.error.format());
+      setErros(resultado.error.format());
     } else {
       setErros({});
 
-      const novoHeroi = {
-        ...formData,
-      };
+      mutate(resultado.data);
 
-      setHerois([...herois, novoHeroi]);
       console.log("Um novo herói foi validado e salvo!");
-
       alert("Formulário enviado com sucesso!");
     }
   }

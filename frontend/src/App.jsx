@@ -109,7 +109,7 @@ function App() {
             <Card key={heroi.id} heroi={heroi} excluirHeroi={excluirHeroi} />
           ))}
         </div>
-        <Formulario herois={herois} setHerois={setHerois} />
+        <Formulario />
       </div>
     </div>
   );

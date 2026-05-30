@@ -67,7 +67,7 @@ export default function Formulario({ herois, setHerois }) {
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2"
         >
-          <option value="null">Selecione a Class</option>
+          <option value="null">Selecione a Classe</option>
           <option value="Mile">Mile</option>
           <option value="Medium">Medium</option>
           <option value="Long">Long</option>

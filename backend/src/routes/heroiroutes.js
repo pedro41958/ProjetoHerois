@@ -4,5 +4,6 @@ const ctrl = require("../controllers/heroicontroller");
 
 router.post("/cadastrarHeroi", ctrl.cadastarHeroi);
 router.get("/listarHerois", ctrl.listarHerois);
+router.delete("/dispensarHeroi", ctrl.dispensarHeroi);
 
 module.exports = router;

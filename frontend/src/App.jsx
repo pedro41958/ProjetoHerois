@@ -4,8 +4,22 @@ import Logo from "./assets/avatar/logo.webp";
 import { useQuery } from "@tanstack/react-query";
 import listarHerois from "./api/api.js";
 import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 function App() {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (id) => {
+      axios.delete("http://localhost:3000/dispensarHeroi", { data: { id } });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["herois"] });
+      alert("Corredora dispensada!");
+    },
+  });
+
   const [herois, setHerois] = useState([]);
   const [lista, setLista] = useState([]);
 
@@ -30,11 +44,8 @@ function App() {
 
   if (error) return "Erro!";
 
-  function excluirHeroi(id) {
-    const novoArray = herois.filter((heroi) => heroi.id != id);
-    setHerois(novoArray);
-    setLista(herois);
-    alert("Herói removido!");
+  function dispensarHeroi(id) {
+    mutate(id);
   }
 
   //Funções de cada personagem
@@ -106,7 +117,11 @@ function App() {
         </div>
         <div className="flex flex-wrap justify-center">
           {lista.map((heroi) => (
-            <Card key={heroi.id} heroi={heroi} excluirHeroi={excluirHeroi} />
+            <Card
+              key={heroi.id}
+              heroi={heroi}
+              dispensarHeroi={dispensarHeroi}
+            />
           ))}
         </div>
         <Formulario />

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import StatusBadge from "./StatusBadge";
 
-function Card({ heroi, excluirHeroi }) {
+function Card({ heroi, dispensarHeroi }) {
   const [xp, setXp] = useState(0);
-  const [nivel, setNivel] = useState(0);
+  const [poder, setPoder] = useState(heroi.poder);
   const [mostrarMsg, setMostrarMsg] = useState(false);
   const [selecionado, setSelecionado] = useState(false);
   const [levelUp, setLevelUp] = useState(false);
@@ -14,7 +14,7 @@ function Card({ heroi, excluirHeroi }) {
     setTimeout(() => {
       setLevelUp(true);
       setXp(0);
-      setNivel(nivel + 1);
+      setPoder(poder + 1);
       setMostrarMsg(true);
 
       setTimeout(() => {
@@ -61,7 +61,7 @@ function Card({ heroi, excluirHeroi }) {
         <strong>{heroi.nome}</strong> subiu de nível!
       </div>
       <div>
-        Nível: <strong>{nivel}</strong>
+        Poder: <strong>{poder}</strong>
       </div>
       <img
         src={heroi.imagem}
@@ -100,9 +100,9 @@ function Card({ heroi, excluirHeroi }) {
 
       <button
         className="ml-2.5 mr-2.5 mb-2.5 mt-0.5 bg-rose-500 text-white py-2 px-4 rounded shadow-md"
-        onClick={() => excluirHeroi(heroi.id)}
+        onClick={() => dispensarHeroi(heroi.id)}
       >
-        Excluir
+        Dispensar
       </button>
     </div>
   );

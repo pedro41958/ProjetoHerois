@@ -16,7 +16,7 @@ const schema = z.object({
 export default function Formulario() {
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (novoHeroi) => {
       return axios.post("http://localhost:3000/cadastrarHeroi", novoHeroi);
     },
@@ -42,6 +42,8 @@ export default function Formulario() {
   }
 
   function handleSubmit(e) {
+    e.preventDefault();
+
     const resultado = schema.safeParse(formData);
 
     if (!resultado.success) {
@@ -107,52 +109,17 @@ export default function Formulario() {
         </select>
         {erros.status && <p className="text-red-500">{erros.status._errors}</p>}
 
-        <button className="w-full bg-purple-500 text-white py-2 px-4 rounded shadow-md">
-          Enviar
+        <button
+          disabled={isPending}
+          className={`p-2 rounded text-white ${
+            isPending
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#9870AA] cursor-pointer"
+          }`}
+        >
+          {isPending ? "Salvando..." : "Cadastrar"}
         </button>
       </form>
     </div>
   );
 }
-
-/*
-export default function Formulario() {
-  const [dados, setDados] = useState({
-    nome: "",
-    classe: "",
-  });
-
-  function handleChange(e) {
-    const novosDados = {
-      ...dados,
-      [e.target.name]: e.target.value,
-    };
-
-    setDados(novosDados);
-
-    console.log(novosDados);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(dados);
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="nome">
-        Nome
-        <input name="nome" value={dados.nome} onChange={handleChange} />
-      </label>
-      <label htmlFor="nome">
-        Classe
-        <input name="classe" value={dados.classe} onChange={handleChange} />
-      </label>
-
-      <input type="file" />
-
-      <button type="submit">Enviar</button>
-    </form>
-  );
-}
-*/

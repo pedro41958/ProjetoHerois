@@ -22,3 +22,13 @@ exports.cadastarHeroi = async (req, res) => {
     res.status(500).send("Erro ao cadastrar!");
   }
 };
+
+exports.listarHerois = async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM herois");
+
+    res.json(rows);
+  } catch (error) {
+    res.status(500).send("Erro ao trazer heróis!");
+  }
+};

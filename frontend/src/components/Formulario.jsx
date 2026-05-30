@@ -2,16 +2,17 @@ import { useState } from "react";
 import { z } from "zod";
 
 const schema = z.object({
-  nome: z.string().min(3, "Nome muito curto!"),
-  classe: z.string().min(4, "Classe muito curta!"),
+  nome: z.string().min(3, "Mínimo 3 caracteres!"),
+  classe: z.enum(["Mile", "Medium", "Long"], "Classe inválida!"),
+  poder: z.number().min(0, "Mínimo poder 0!").max(100, "Máximo poder 100!"),
+  status: z.enum(["online", "ausente", "offline"], "Status inválido!"),
 });
 
 export default function Formulario({ herois, setHerois }) {
   const [formData, setFormData] = useState({
-    id: "",
     nome: "",
     classe: "",
-    imagem: "",
+    poder: "",
     status: "",
   });
 
@@ -24,18 +25,16 @@ export default function Formulario({ herois, setHerois }) {
     });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit() {
+    const resultado = schema.safeParse(formData);
 
-    const result = schema.safeParse(formData);
-    if (!result.success) {
+    if (!resultado.success) {
       setErros(result.error.format());
     } else {
       setErros({});
 
       const novoHeroi = {
         ...formData,
-        id: herois.length + 1,
       };
 
       setHerois([...herois, novoHeroi]);
@@ -63,21 +62,26 @@ export default function Formulario({ herois, setHerois }) {
         />
         {erros.nome && <p className="text-red-500">{erros.nome._errors}</p>}
 
-        <input
-          type="text"
+        <select
           name="classe"
-          placeholder="Classe"
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2"
-        />
+        >
+          <option value="null">Selecione a Class</option>
+          <option value="Mile">Mile</option>
+          <option value="Medium">Medium</option>
+          <option value="Long">Long</option>
+        </select>
         {erros.classe && <p className="text-red-500">{erros.classe._errors}</p>}
 
         <input
-          type="file"
-          name="imagem"
+          type="number"
+          name="poder"
+          placeholder="Poder"
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2"
         />
+        {erros.poder && <p className="text-red-500">{erros.poder._errors}</p>}
 
         <select
           name="status"
@@ -89,6 +93,7 @@ export default function Formulario({ herois, setHerois }) {
           <option value="ausente">Ausente</option>
           <option value="offline">Offline</option>
         </select>
+        {erros.status && <p className="text-red-500">{erros.status._errors}</p>}
 
         <button className="w-full bg-purple-500 text-white py-2 px-4 rounded shadow-md">
           Enviar

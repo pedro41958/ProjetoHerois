@@ -79,7 +79,7 @@ export default function Formulario() {
         <select
           name="classe"
           onChange={handleChange}
-          className="border p-2 rounded w-full mb-2"
+          className="border p-2 rounded w-full mb-2 cursor-pointer"
         >
           <option value="null">Selecione a Classe</option>
           <option value="Mile">Mile</option>
@@ -100,7 +100,7 @@ export default function Formulario() {
         <select
           name="status"
           onChange={handleChange}
-          className="border p-2 rounded w-full mb-2"
+          className="border p-2 rounded w-full mb-2 cursor-pointer"
         >
           <option value="null">Selecione o Status</option>
           <option value="online">Online</option>

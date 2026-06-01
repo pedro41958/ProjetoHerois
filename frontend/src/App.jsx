@@ -12,7 +12,9 @@ function App() {
 
   const { mutate } = useMutation({
     mutationFn: (id) => {
-      axios.delete("http://localhost:3000/dispensarHeroi", { data: { id } });
+      return axios.delete("http://localhost:3000/dispensarHeroi", {
+        data: { id },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["herois"] });
@@ -68,22 +70,17 @@ function App() {
     setLista(herois);
   }
 
-  function restaurarPadrao() {
-    setHerois(data);
-    setLista(data);
-  }
-
   return (
     <div className="bg-white">
       <div className="mx-auto w-130">
-        <img src={Logo} alt="Logo" />
+        <img draggable="false" src={Logo} alt="Logo" />
       </div>
       <div className="text-center py-2">
         <h1 className="font-bold">SELEÇÃO DE CORREDORA</h1>
       </div>
       <div className="text-center">
         <h1 className="font-semibold">Recrute seu time</h1>
-        <div className="grid grid-cols-5 gap-2.5 justify-center max-w-100 mx-auto">
+        <div className="grid grid-cols-4 gap-2.5 justify-center max-w-100 mx-auto">
           <button
             className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
             onClick={filtrarMile}
@@ -107,12 +104,6 @@ function App() {
             onClick={mostrarTodos}
           >
             Todos
-          </button>
-          <button
-            className="text-white bg-[#D55883] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
-            onClick={restaurarPadrao}
-          >
-            Padrão
           </button>
         </div>
         <div className="flex flex-wrap justify-center">

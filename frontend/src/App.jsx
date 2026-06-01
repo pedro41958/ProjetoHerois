@@ -1,11 +1,12 @@
 import Card from "./components/Card.jsx";
 import Formulario from "./components/Formulario.jsx";
 import Logo from "./assets/avatar/logo.webp";
-import { useQuery } from "@tanstack/react-query";
 import listarHerois from "./api/api.js";
+import NavBar from "./components/NavBar.jsx";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 
 function App() {
   const queryClient = useQueryClient();
@@ -71,15 +72,13 @@ function App() {
   }
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto w-130">
-        <img draggable="false" src={Logo} alt="Logo" />
-      </div>
+    <div className="bg-slate-100">
+      <NavBar />
       <div className="text-center py-2">
         <h1 className="font-bold">SELEÇÃO DE CORREDORA</h1>
       </div>
       <div className="text-center">
-        <h1 className="font-semibold">Recrute seu time</h1>
+        <h1 className="font-semibold">Recrute seu time!</h1>
         <div className="grid grid-cols-4 gap-2.5 justify-center max-w-100 mx-auto">
           <button
             className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"

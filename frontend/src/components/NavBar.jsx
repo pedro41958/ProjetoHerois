@@ -1,13 +1,14 @@
+import { Link } from "react-router-dom";
 import Logo from "../assets/avatar/logo.webp";
 
-function NavBar({ mudarPagina }) {
+function NavBar() {
   const botaoUsuario =
-    "bg-[#DB4E81] text-white rounded p-1 cursor-pointer border-none my-7.5 font-semibold";
+    "flex justify-center bg-[#DB4E81] text-white rounded p-1 cursor-pointer border-none my-7.5 font-semibold";
 
   const menu = [
-    { id: "login", texto: "Login" },
-    { id: "cadastro", texto: "Cadastro" },
-    { id: "herois", texto: "Umamusumes" },
+    { id: "login", texto: "Login", path: "/loginUsuario" },
+    { id: "cadastro", texto: "Cadastro", path: "/cadastroUsuario" },
+    { id: "herois", texto: "Umamusumes", path: "/herois" },
   ];
 
   return (
@@ -18,13 +19,9 @@ function NavBar({ mudarPagina }) {
       <div className="bg-slate-400">
         <div className="grid grid-cols-3 gap-2.5 justify-center max-w-100 mx-auto">
           {menu.map((botao) => (
-            <button
-              key={botao.id}
-              onClick={mudarPagina(botao.id)}
-              className={`${botaoUsuario}`}
-            >
+            <Link key={botao.id} to={botao.path} className={`${botaoUsuario}`}>
               {botao.texto}
-            </button>
+            </Link>
           ))}
         </div>
       </div>

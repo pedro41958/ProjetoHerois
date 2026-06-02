@@ -1,8 +1,14 @@
 import Logo from "../assets/avatar/logo.webp";
 
-function NavBar() {
+function NavBar({ mudarPagina }) {
   const botaoUsuario =
     "bg-[#DB4E81] text-white rounded p-1 cursor-pointer border-none my-7.5 font-semibold";
+
+  const menu = [
+    { id: "login", texto: "Login" },
+    { id: "cadastro", texto: "Cadastro" },
+    { id: "herois", texto: "Umamusumes" },
+  ];
 
   return (
     <div className="w-auto h-auto bg-slate-300">
@@ -11,9 +17,15 @@ function NavBar() {
       </div>
       <div className="bg-slate-400">
         <div className="grid grid-cols-3 gap-2.5 justify-center max-w-100 mx-auto">
-          <button className={`${botaoUsuario}`}>Login</button>
-          <button className={`${botaoUsuario}`}>Cadastro</button>
-          <button className={`${botaoUsuario}`}>Umamusumes</button>
+          {menu.map((botao) => (
+            <button
+              key={botao.id}
+              onClick={mudarPagina(botao.id)}
+              className={`${botaoUsuario}`}
+            >
+              {botao.texto}
+            </button>
+          ))}
         </div>
       </div>
     </div>

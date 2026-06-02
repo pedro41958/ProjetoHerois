@@ -59,7 +59,7 @@ export default function Formulario() {
   }
 
   return (
-    <div className="flex items-center justify-center bg-gray-200 p-5 shadow-md">
+    <div className="flex items-center justify-center bg-slate-200 p-5 shadow-md">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400"
@@ -111,7 +111,7 @@ export default function Formulario() {
 
         <button
           disabled={isPending}
-          className={`p-2 rounded text-white ${
+          className={`p-2 rounded text-white font-semibold ${
             isPending
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[#9870AA] cursor-pointer"

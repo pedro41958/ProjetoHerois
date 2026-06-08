@@ -1,6 +1,6 @@
 const { success } = require("zod");
 const db = require("../config/db");
-const schema = require("../schemas/heroischema");
+const schema = require("../schemas/heroiSchema");
 
 exports.cadastarHeroi = async (req, res) => {
   const resultado = schema.safeParse(req.body);

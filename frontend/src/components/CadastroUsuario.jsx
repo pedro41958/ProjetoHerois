@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   nome: z.string().min(3, "Mínimo 3 caracteres!"),
@@ -11,6 +12,7 @@ const schema = z.object({
 
 function CadastroUsuario() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (novoUsuario) => {
@@ -18,6 +20,8 @@ function CadastroUsuario() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+      alert("Usuário cadastrado com sucesso!");
+      navigate("/loginUsuario");
     },
   });
 
@@ -36,7 +40,9 @@ function CadastroUsuario() {
     });
   }
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
+
     const resultado = schema.safeParse(formData);
 
     if (!resultado.success) {
@@ -45,8 +51,6 @@ function CadastroUsuario() {
       setErros({});
 
       mutate(resultado.data);
-
-      alert("Usuário cadastrado com sucesso!");
     }
   }
 
@@ -81,7 +85,7 @@ function CadastroUsuario() {
             className="border p-2 rounded w-full mb-2"
             required
           />
-          {erros.nome && <p className="text-red-500">{erros.nome._errors}</p>}
+          {erros.email && <p className="text-red-500">{erros.email._errors}</p>}
         </label>
 
         <label htmlFor="senha" className="text-center">
@@ -94,7 +98,7 @@ function CadastroUsuario() {
             className="border p-2 rounded w-full mb-2"
             required
           />
-          {erros.nome && <p className="text-red-500">{erros.nome._errors}</p>}
+          {erros.senha && <p className="text-red-500">{erros.senha._errors}</p>}
         </label>
 
         <button

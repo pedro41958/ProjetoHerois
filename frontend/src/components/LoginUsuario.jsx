@@ -1,35 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
-  nome: z.string().min(3, "Mínimo 3 caracteres!"),
-  classe: z.enum(["Mile", "Medium", "Long"], "Classe inválida!"),
-  poder: z.coerce
-    .number()
-    .min(0, "Mínimo poder 0!")
-    .max(100, "Máximo poder 100!"),
-  status: z.enum(["online", "ausente", "offline"], "Status inválido!"),
+  email: z.string().trim().email("Email inválido!"),
+  senha: z.string().min(8, "Mínimo 8 caracteres!"),
 });
 
 function LoginUsuario() {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (novoHeroi) => {
-      return axios.post("http://localhost:3000/cadastrarHeroi", novoHeroi);
+    mutationFn: (usuario) => {
+      return axios.post("http://localhost:3000/loginUsuario", usuario);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["herois"] });
+      queryClient.invalidateQueries({ queryKey: ["usuarios"] });
     },
   });
 
   const [formData, setFormData] = useState({
-    nome: "",
-    classe: "",
-    poder: "",
-    status: "",
+    email: "",
+    senha: "",
   });
 
   const [erros, setErros] = useState({});

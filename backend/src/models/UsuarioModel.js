@@ -14,7 +14,7 @@ class UsuarioModel {
       "SELECT * FROM usuarios WHERE email = ?",
       [email],
     );
-    return resultado;
+    return resultado[0];
   }
 }
 

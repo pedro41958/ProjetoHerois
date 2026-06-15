@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Logo from "../assets/avatar/logo.webp";
 
 function NavBar() {
   const botaoUsuario =
     "flex justify-center bg-[#DB4E81] text-white rounded p-1 cursor-pointer border-none my-3 font-semibold";
+
+  const botaoUsuarioSelecionado =
+    "flex justify-center bg-[#FBCEC3] text-zinc-700 rounded p-1 cursor-pointer border-none my-3 font-semibold";
 
   const menu = [
     { id: "login", texto: "Login", path: "/loginUsuario" },
@@ -19,9 +22,15 @@ function NavBar() {
       <div className="bg-slate-400">
         <div className="grid grid-cols-3 gap-4 justify-center max-w-100 mx-auto">
           {menu.map((botao) => (
-            <Link key={botao.id} to={botao.path} className={`${botaoUsuario}`}>
+            <NavLink
+              key={botao.id}
+              to={botao.path}
+              className={({ isActive }) =>
+                isActive ? `${botaoUsuarioSelecionado}` : `${botaoUsuario}`
+              }
+            >
               {botao.texto}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </div>

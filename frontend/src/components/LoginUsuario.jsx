@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const schema = z.object({
   email: z.string().trim().email("Email inválido!"),
@@ -11,6 +11,7 @@ const schema = z.object({
 
 function LoginUsuario() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (usuario) => {
@@ -18,6 +19,8 @@ function LoginUsuario() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+      alert("Usuário encontrado! Bem-vindo treinador!");
+      navigate("/herois");
     },
   });
 
@@ -47,12 +50,16 @@ function LoginUsuario() {
 
       mutate(resultado.data);
 
-      console.log("Um novo herói foi validado e salvo!");
-      alert("Formulário enviado com sucesso!");
+      const token = resultado.data.token;
+
+      localStorage.setItem("token", token);
     }
   }
   return (
-    <div className="flex items-center justify-center bg-slate-100 p-5 shadow-md">
+    <div className="flex flex-col items-center bg-slate-100 shadow-md h-screen">
+      <h1 className="bg-slate-500 text-white w-full text-center p-2 mb-6 font-semibold ">
+        Entre com sua conta de treinador!
+      </h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400"
@@ -89,14 +96,23 @@ function LoginUsuario() {
 
         <button
           disabled={isPending}
-          className={`p-2 rounded text-white font-semibold ${
+          className={`p-2 m-5 rounded text-white font-semibold ${
             isPending
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-[#9870AA] cursor-pointer"
           }`}
         >
-          {isPending ? "Salvando..." : "Cadastrar"}
+          {isPending ? "Buscando..." : "Entrar"}
         </button>
+
+        <Link to={"/cadastroUsuario"}>
+          <div className="text-[13px] text-center">
+            <p>Não possui um cadastro?</p>
+            <p className="text-sky-500 underline">
+              Clique aqui pra se cadastrar!
+            </p>
+          </div>
+        </Link>
       </form>
     </div>
   );

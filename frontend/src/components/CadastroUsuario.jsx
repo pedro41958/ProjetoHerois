@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
-import axios from "axios";
+import api from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
 
 const schema = z.object({
@@ -16,7 +16,7 @@ function CadastroUsuario() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (novoUsuario) => {
-      return axios.post("http://localhost:3000/cadastroUsuario", novoUsuario);
+      return api.post("/cadastroUsuario", novoUsuario);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });

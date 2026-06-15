@@ -1,12 +1,29 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-function gerarToken(usuario) {
-  return jwt.sign(
-    { id: usuario.id, nome: usuario.nome, email: usuario.email },
+exports.gerarToken = (req, res, next) => {
+  jwt.sign(
+    { id: req.id, nome: req.nome, email: req.email },
     process.env.JWT_SECRET,
     { expiresIn: "1h" },
   );
-}
+  res.status(201).json({ message: "Token gerado!" });
+  next();
+};
 
-module.exports = gerarToken;
+exports.verificarToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ erro: "Token não fornecido." });
+  }
+
+  try {
+    const verificado = jwt.verify(token, process.env.JWT_SECRET);
+    req.usuario = verificado;
+    next();
+  } catch (err) {
+    return res.status(403).json({ erro: "Token inválido." });
+  }
+};

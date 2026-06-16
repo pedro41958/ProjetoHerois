@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 
 const UsuarioModel = require("../models/UsuarioModel");
 
-const gerarToken = require("../middlewares/usuarioJWT");
+const { gerarToken } = require("../middlewares/usuarioJWT");
 const schemaCadastroUsuarios = require("../schemas/usuarioSchema");
 
 exports.cadastroUsuario = async (req, res) => {

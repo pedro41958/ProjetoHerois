@@ -17,10 +17,12 @@ function LoginUsuario() {
     mutationFn: (usuario) => {
       return api.post("/loginUsuario", usuario);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      localStorage.setItem("token", response.data.token); // 👈 salva aqui
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
       alert("Usuário encontrado! Bem-vindo treinador!");
       navigate("/herois");
+      location.reload();
     },
   });
 
@@ -49,10 +51,6 @@ function LoginUsuario() {
       setErros({});
 
       mutate(resultado.data);
-
-      const token = resultado.data.token;
-
-      localStorage.setItem("token", token);
     }
   }
   return (

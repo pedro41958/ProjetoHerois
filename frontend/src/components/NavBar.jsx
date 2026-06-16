@@ -16,6 +16,7 @@ function NavBar() {
       path: "/cadastroUsuario",
       protegido: false,
     },
+    { id: "perfil", texto: "Perfil", path: "/perfil", protegido: true },
     { id: "herois", texto: "Umamusumes", path: "/herois", protegido: true },
   ];
 
@@ -26,8 +27,8 @@ function NavBar() {
       <div className="mx-auto w-130">
         <img draggable="false" src={Logo} alt="Logo" />
       </div>
-      <div className="bg-slate-400">
-        <div className={`flex gap-4 justify-center max-w-100 mx-auto`}>
+      <div className="relative w-full h-16 bg-slate-400">
+        <div className="absolute left-1/2 -translate-x-1/2 flex gap-4">
           {menu.map((botao) => {
             if (botao.protegido && !token) return null;
             if (!botao.protegido && token) return null;
@@ -37,7 +38,7 @@ function NavBar() {
                 key={botao.id}
                 to={botao.path}
                 className={({ isActive }) =>
-                  isActive ? `${botaoUsuarioSelecionado}` : `${botaoUsuario}`
+                  isActive ? botaoUsuarioSelecionado : botaoUsuario
                 }
               >
                 {botao.texto}
@@ -45,6 +46,14 @@ function NavBar() {
             );
           })}
         </div>
+        {token && (
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#DB4E81] text-white rounded p-1 font-semibold w-20 cursor-pointer"
+            onClick={() => localStorage.removeItem("token")}
+          >
+            Sair
+          </button>
+        )}
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ function LoginUsuario() {
       localStorage.setItem("token", response.data.token); // 👈 salva aqui
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
       alert("Usuário encontrado! Bem-vindo treinador!");
-      navigate("/herois");
+      navigate("/perfil");
       location.reload();
     },
   });

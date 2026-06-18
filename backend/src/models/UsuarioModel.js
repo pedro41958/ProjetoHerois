@@ -16,6 +16,23 @@ class UsuarioModel {
     );
     return resultado[0];
   }
+
+  async encontrarId(idUsuario) {
+    const [resultado] = await db.query(
+      "SELECT * FROM usuarios WHERE id_usuario = ?",
+      [idUsuario],
+    );
+    return resultado[0];
+  }
+
+  async editarPerfil(nome, email, senha) {
+    await db.query(
+      `UPDATE usuarios
+        SET nome = ?, email = ?, senha = ?
+        WHERE id = ?`,
+      [nome, email, senha],
+    );
+  }
 }
 
 module.exports = UsuarioModel;

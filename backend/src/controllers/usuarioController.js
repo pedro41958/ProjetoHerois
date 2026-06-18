@@ -60,3 +60,39 @@ exports.loginUsuario = async (req, res) => {
     res.status(500).send("Erro ao realizar login!");
   }
 };
+
+exports.editarPerfil = async (req, res) => {
+  const resultado = schemaCadastroUsuarios.safeParse(req.body);
+
+  if (!resultado.success) {
+    return res.status(400).json(resultado.error.issues);
+  }
+
+  const { nome, email, senhaAtual, senhaNova } = resultado.data;
+  const id = req.usuario.id;
+
+  try {
+    const usuarioModel = new UsuarioModel();
+
+    const usuario = await usuarioModel.encontrarId(id);
+
+    const senhaVerificada = await bcrypt.compare(senhaAtual, usuario.senha);
+
+    if (senhaVerificada) {
+      const saltRoundes = 10;
+
+      const senhaAtualizada = await bcrypt.hash(senhaNova, saltRoundes);
+
+      await usuarioModel.editarPerfil(id, nome, email, senhaAtualizada);
+
+      res.status(200).json({
+        message: "Perfil atualizado!",
+        auth: true,
+      });
+    } else {
+      res.status(401).send("Senha incorreta!");
+    }
+  } catch (error) {
+    res.status(500).send("Erro ao editar perfil!");
+  }
+};

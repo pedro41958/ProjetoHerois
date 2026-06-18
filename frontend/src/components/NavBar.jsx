@@ -49,7 +49,9 @@ function NavBar() {
         {token && (
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#DB4E81] text-white rounded p-1 font-semibold w-20 cursor-pointer"
-            onClick={() => localStorage.removeItem("token")}
+            onClick={() => {
+              (localStorage.removeItem("token"), location.reload());
+            }}
           >
             Sair
           </button>

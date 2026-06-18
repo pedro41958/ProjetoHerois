@@ -50,7 +50,9 @@ exports.loginUsuario = async (req, res) => {
     if (senhaHash) {
       const token = gerarToken(usuario);
 
-      res.status(201).json({ message: "Login realizado!", auth: true, token });
+      res
+        .status(201)
+        .json({ message: "Login realizado!", auth: true, token, usuario });
     } else {
       res.status(401).send("Senha incorreta!");
     }

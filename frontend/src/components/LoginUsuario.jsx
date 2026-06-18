@@ -3,6 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import api from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
+import { useUsuario } from "../context/UsuarioContext";
 
 const schema = z.object({
   email: z.string().trim().email("Email inválido!"),
@@ -12,14 +13,17 @@ const schema = z.object({
 function LoginUsuario() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { setUsuario } = useUsuario();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (usuario) => {
       return api.post("/loginUsuario", usuario);
     },
     onSuccess: (response) => {
-      localStorage.setItem("token", response.data.token); // 👈 salva aqui
+      localStorage.setItem("token", response.data.token);
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+      setUsuario(response.data.usuario);
+      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
       alert("Usuário encontrado! Bem-vindo treinador!");
       navigate("/perfil");
       location.reload();

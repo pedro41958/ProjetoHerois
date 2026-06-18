@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import Logo from "../assets/avatar/logo.webp";
+import { useUsuario } from "../context/UsuarioContext";
 
 function NavBar() {
+  const { setUsuario } = useUsuario();
+
   const botaoUsuario =
     "flex justify-center bg-[#DB4E81] text-white rounded p-1 cursor-pointer border-none my-3 font-semibold w-35";
 
@@ -50,7 +53,9 @@ function NavBar() {
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#DB4E81] text-white rounded p-1 font-semibold w-20 cursor-pointer"
             onClick={() => {
-              (localStorage.removeItem("token"), location.reload());
+              (localStorage.removeItem("token"),
+                setUsuario(null),
+                location.reload());
             }}
           >
             Sair

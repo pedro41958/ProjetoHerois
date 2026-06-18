@@ -4,6 +4,7 @@ const UsuarioModel = require("../models/UsuarioModel");
 
 const { gerarToken } = require("../middlewares/usuarioJWT");
 const schemaCadastroUsuarios = require("../schemas/usuarioSchema");
+const schemaEditarPerfil = require("../schemas/usuarioSchema");
 
 exports.cadastroUsuario = async (req, res) => {
   const resultado = schemaCadastroUsuarios.safeParse(req.body);
@@ -62,7 +63,7 @@ exports.loginUsuario = async (req, res) => {
 };
 
 exports.editarPerfil = async (req, res) => {
-  const resultado = schemaCadastroUsuarios.safeParse(req.body);
+  const resultado = schemaEditarPerfil.safeParse(req.body);
 
   if (!resultado.success) {
     return res.status(400).json(resultado.error.issues);

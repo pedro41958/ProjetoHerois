@@ -1,4 +1,5 @@
 import { useUsuario } from "../context/UsuarioContext";
+import EditarPerfil from "./EditarPerfil";
 
 function Perfil() {
   const { usuario } = useUsuario();
@@ -12,6 +13,15 @@ function Perfil() {
         <h1>Perfil do Treinador:</h1>
         <p>NOME: {usuario.nome}</p>
         <p>E-MAIL: {usuario.email}</p>
+
+        <button
+          className="p-2 m-5 rounded text-white font-semibold bg-[#9870AA] cursor-pointer"
+          onClick={() => {
+            <EditarPerfil />;
+          }}
+        >
+          Editar Perfil
+        </button>
       </div>
     </div>
   );

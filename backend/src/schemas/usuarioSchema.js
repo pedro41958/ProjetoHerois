@@ -6,4 +6,11 @@ const schemaCadastroUsuarios = z.object({
   senha: z.string().min(8, "Mínimo 8 caracteres!"),
 });
 
+const schemaEditarPerfil = z.object({
+  nome: z.string().min(3, "Mínimo 3 caracteres!"),
+  email: z.string().trim().email("Email inválido!"),
+  senhaNova: z.string().min(8, "Mínimo 8 caracteres!"),
+});
+
 module.exports = schemaCadastroUsuarios;
+module.exports = schemaEditarPerfil;

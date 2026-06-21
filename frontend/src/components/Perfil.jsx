@@ -1,8 +1,10 @@
 import { useUsuario } from "../context/UsuarioContext";
+import { useState } from "react";
 import EditarPerfil from "./EditarPerfil";
 
 function Perfil() {
   const { usuario } = useUsuario();
+  const [abrirModal, setAbrirModal] = useState(false);
 
   return (
     <div className="flex flex-col items-center bg-slate-100 shadow-md h-screen">
@@ -16,13 +18,12 @@ function Perfil() {
 
         <button
           className="p-2 m-5 rounded text-white font-semibold bg-[#9870AA] cursor-pointer"
-          onClick={() => {
-            <EditarPerfil />;
-          }}
+          onClick={() => setAbrirModal(true)}
         >
           Editar Perfil
         </button>
       </div>
+      {abrirModal && <EditarPerfil fecharModal={() => setAbrirModal(false)} />}
     </div>
   );
 }

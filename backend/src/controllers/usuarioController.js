@@ -86,14 +86,17 @@ exports.editarPerfil = async (req, res) => {
 
       await usuarioModel.editarPerfil(id, nome, email, senhaAtualizada);
 
+      const usuario = await usuarioModel.encontrarId(id);
+
       res.status(200).json({
         message: "Perfil atualizado!",
         auth: true,
+        usuario,
       });
     } else {
-      res.status(401).send("Senha incorreta!");
+      res.status(400).send("Senha incorreta!");
     }
   } catch (error) {
-    res.status(500).send("Erro ao editar perfil!");
+    res.status(500).send(error.message);
   }
 };

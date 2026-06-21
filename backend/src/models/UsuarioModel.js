@@ -25,12 +25,12 @@ class UsuarioModel {
     return resultado[0];
   }
 
-  async editarPerfil(nome, email, senha) {
+  async editarPerfil(idUsuario, nome, email, senha) {
     await db.query(
       `UPDATE usuarios
         SET nome = ?, email = ?, senha = ?
-        WHERE id = ?`,
-      [nome, email, senha],
+        WHERE id_usuario = ?`,
+      [nome, email, senha, idUsuario],
     );
   }
 }

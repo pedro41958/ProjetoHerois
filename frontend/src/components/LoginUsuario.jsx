@@ -23,7 +23,6 @@ function LoginUsuario() {
       localStorage.setItem("token", response.data.token);
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
       setUsuario(response.data.usuario);
-      localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
       alert("Usuário encontrado! Bem-vindo treinador!");
       navigate("/perfil");
       location.reload();

@@ -2,23 +2,34 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
 import api from "../api/api";
+import { useUsuario } from "../context/UsuarioContext";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   nome: z.string().min(3, "Mínimo 3 caracteres!"),
   email: z.string().trim().email("Email inválido!"),
+  senhaAtual: z.string().min(1, "Informe sua senha atual!"),
   senhaNova: z.string().min(8, "Mínimo 8 caracteres!"),
 });
 
-function EditarPerfil() {
+function EditarPerfil({ fecharModal }) {
   const queryClient = useQueryClient();
+  const { setUsuario } = useUsuario();
+  const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (usuarioEditado) => {
-      return api.update("/editarPerfil", usuarioEditado);
+      return api.put("/editarPerfil", usuarioEditado);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["usuarios"] });
+      setUsuario(response.data.usuario);
       alert("Perfil atualizado com sucesso!");
+      navigate("/perfil");
+      fecharModal();
+    },
+    onError: (error) => {
+      alert(error.response?.data);
     },
   });
 
@@ -53,7 +64,7 @@ function EditarPerfil() {
   }
 
   return (
-    <div className="flex flex-col items-center bg-slate-100 shadow-md h-screen">
+    <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center shadow-md h-screen">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400"
@@ -122,6 +133,12 @@ function EditarPerfil() {
           }`}
         >
           {isPending ? "Salvando..." : "Atualizar"}
+        </button>
+        <button
+          onClick={fecharModal}
+          className="p-2 m-5 mt-0 rounded text-white font-semibold cursor-pointer bg-gray-400"
+        >
+          Sair
         </button>
       </form>
     </div>

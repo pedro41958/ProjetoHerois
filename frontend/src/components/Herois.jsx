@@ -1,14 +1,15 @@
 import Card from "./Card.jsx";
-import Formulario from "./Formulario.jsx";
-import listarHerois from "../api/api.js";
+import CadastrarHeroi from "./CadastrarHerois.jsx";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState, useMemo } from "react";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import api from "../api/api";
 
 function Herois() {
   const queryClient = useQueryClient();
+
+  const [abrirModal, setAbrirModal] = useState(false);
+  const [busca, setBusca] = useState("");
 
   const { mutate } = useMutation({
     mutationFn: (id) => {
@@ -27,9 +28,6 @@ function Herois() {
     },
   });
 
-  const [herois, setHerois] = useState([]);
-  const [lista, setLista] = useState([]);
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["herois"],
     queryFn: async function listarHerois() {
@@ -38,12 +36,15 @@ function Herois() {
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      setHerois(data);
-      setLista(data);
-    }
-  }, [data]);
+  const heroisFiltrados = useMemo(() => {
+    return (data || []).filter((heroi) =>
+      heroi.nome.toLowerCase().includes(busca.toLowerCase()),
+    );
+  }, [data, busca]);
+
+  function dispensarHeroi(id) {
+    mutate(id);
+  }
 
   if (isLoading)
     return (
@@ -54,73 +55,47 @@ function Herois() {
 
   if (error) return "Erro!";
 
-  function dispensarHeroi(id) {
-    mutate(id);
-  }
-
-  //Funções de cada personagem
-  function filtrarMile() {
-    const mile = herois.filter((heroi) => heroi.classe == "Mile");
-    setLista(mile);
-  }
-
-  function filtrarMedium() {
-    const medium = herois.filter((heroi) => heroi.classe == "Medium");
-    setLista(medium);
-  }
-
-  function filtrarLong() {
-    const long = herois.filter((heroi) => heroi.classe == "Long");
-    setLista(long);
-  }
-
-  function mostrarTodos() {
-    setLista(herois);
-  }
-
   return (
     <div className="bg-slate-100">
-      <div className="text-center py-2">
-        <h1 className="font-bold">SELEÇÃO DE CORREDORA</h1>
+      <div className="text-center">
+        <h1 className="bg-slate-500 text-white w-full text-center p-2 font-bold">
+          Central de Comando
+        </h1>
       </div>
       <div className="text-center">
-        <h1 className="font-semibold">Recrute seu time!</h1>
-        <div className="grid grid-cols-4 gap-2.5 justify-center max-w-100 mx-auto">
+        <h2 className="bg-slate-500 text-white w-full text-center p-2 font-semibold">
+          Recrute Umamusumes e crie Times!
+        </h2>
+        <div className="flex justify-around bg-slate-600 text-white w-full text-center p-2 mb-6 font-semibold">
           <button
-            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
-            onClick={filtrarMile}
+            className="p-2 rounded text-white font-semibold bg-[#9870AA] cursor-pointer w-50"
+            onClick={() => setAbrirModal(true)}
           >
-            Mile
+            Recrutar Umamusume!
           </button>
-          <button
-            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
-            onClick={filtrarMedium}
-          >
-            Medium
-          </button>
-          <button
-            className="text-white bg-[#9870AA] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
-            onClick={filtrarLong}
-          >
-            Long
-          </button>
-          <button
-            className="text-white bg-[#D786B0] rounded p-1 cursor-pointer border-none my-7.5 font-semibold"
-            onClick={mostrarTodos}
-          >
-            Todos
+          <input
+            className="bg-slate-300 w-105 text-black rounded p-2"
+            type="text"
+            placeholder="Buscar Umamusume por nome..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+          />
+          <button className="p-2 rounded text-white font-semibold bg-[#9870AA] cursor-pointer w-50">
+            Criar novo Time!
           </button>
         </div>
-        <div className="flex flex-wrap justify-center">
-          {lista.map((heroi) => (
-            <Card
-              key={heroi.id_heroi}
-              heroi={heroi}
-              dispensarHeroi={dispensarHeroi}
-            />
-          ))}
-        </div>
-        <Formulario />
+        {abrirModal && (
+          <CadastrarHeroi fecharModal={() => setAbrirModal(false)} />
+        )}
+      </div>
+      <div className="flex flex-wrap justify-center">
+        {heroisFiltrados.map((heroi) => (
+          <Card
+            key={heroi.id_heroi}
+            heroi={heroi}
+            dispensarHeroi={dispensarHeroi}
+          />
+        ))}
       </div>
     </div>
   );

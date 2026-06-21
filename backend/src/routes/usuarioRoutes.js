@@ -6,6 +6,6 @@ const middleware = require("../middlewares/usuarioJWT");
 
 router.post("/cadastroUsuario", ctrl.cadastroUsuario);
 router.post("/loginUsuario", ctrl.loginUsuario);
-router.update("/editarPerfil", middleware, ctrl.editarPerfil);
+router.put("/editarPerfil", middleware.verificarToken, ctrl.editarPerfil);
 
 module.exports = router;

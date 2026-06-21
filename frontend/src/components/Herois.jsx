@@ -5,19 +5,25 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "../api/api";
 
 function Herois() {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (id) => {
-      return axios.delete("http://localhost:3000/dispensarHeroi", {
+      return api.delete("/dispensarHeroi", {
         data: { id },
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["herois"] });
       alert("Corredora dispensada!");
+    },
+
+    onError: (erro) => {
+      console.log(erro.response?.data);
+      console.log(erro);
     },
   });
 
@@ -26,7 +32,10 @@ function Herois() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["herois"],
-    queryFn: listarHerois,
+    queryFn: async function listarHerois() {
+      const { data } = await api.get("/listarHerois");
+      return data;
+    },
   });
 
   useEffect(() => {
@@ -105,7 +114,7 @@ function Herois() {
         <div className="flex flex-wrap justify-center">
           {lista.map((heroi) => (
             <Card
-              key={heroi.id}
+              key={heroi.id_heroi}
               heroi={heroi}
               dispensarHeroi={dispensarHeroi}
             />

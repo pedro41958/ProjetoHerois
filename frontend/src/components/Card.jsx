@@ -52,9 +52,6 @@ function Card({ heroi, dispensarHeroi }) {
         }
       }}
     >
-      <div className="flex justify-center mb-4">
-        <StatusBadge tipo={heroi.status} />
-      </div>
       <div
         className={`gap-1 shadow-md fixed top-3 left-1/2 -translate-x-1/2 flex justify-center mb-4 bg-white border-3 border-green-400 text-black px-5 py-2.5 rounded-lg ${mostrarMsg ? "" : "hidden"}`}
       >
@@ -64,13 +61,18 @@ function Card({ heroi, dispensarHeroi }) {
         Poder: <strong>{poder}</strong>
       </div>
       <img
-        src={heroi.imagem}
+        src={heroi.url_imagem}
         alt={heroi.nome}
         className={`w-full rounded-full mx-auto ${cor} m-2 shadow-md`}
       />
       <h2>
         <strong>{heroi.nome}</strong>
       </h2>
+
+      <p className="m-5">
+        Time: <strong>{heroi.nome_guilda}</strong>
+      </p>
+
       <p className="m-5">
         Classe: <strong>{heroi.classe}</strong>
       </p>
@@ -83,7 +85,7 @@ function Card({ heroi, dispensarHeroi }) {
       </div>
 
       <button
-        className="m-2.5 bg-green-400 text-white py-2 px-4 rounded shadow-md"
+        className="cursor-pointer m-2.5 bg-green-400 text-white py-2 px-4 rounded shadow-md"
         onClick={() => setXp(xp + 10)}
       >
         +10 XP
@@ -92,15 +94,15 @@ function Card({ heroi, dispensarHeroi }) {
       <div>XP: {xp}/100</div>
 
       <button
-        className="m-2.5 mt-8 bg-purple-500 text-white py-2 px-4 rounded shadow-md"
+        className="cursor-pointer m-2.5 mt-8 bg-purple-500 text-white py-2 px-4 rounded shadow-md"
         onClick={() => alert(`Você recrutou ${heroi.nome} para o seu time!`)}
       >
         Recrutar!
       </button>
 
       <button
-        className="ml-2.5 mr-2.5 mb-2.5 mt-0.5 bg-rose-500 text-white py-2 px-4 rounded shadow-md"
-        onClick={() => dispensarHeroi(heroi.id)}
+        className="cursor-pointer ml-2.5 mr-2.5 mb-2.5 mt-0.5 bg-rose-500 text-white py-2 px-4 rounded shadow-md"
+        onClick={() => dispensarHeroi(heroi.id_heroi)}
       >
         Dispensar
       </button>

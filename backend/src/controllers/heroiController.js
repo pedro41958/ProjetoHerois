@@ -51,12 +51,13 @@ exports.dispensarHeroi = async (req, res) => {
   const { id } = req.body;
 
   try {
-    const excluirHeroi = await db.query("DELETE FROM herois WHERE id = ?", [
-      id,
-    ]);
+    const heroiModel = new HeroiModel();
+
+    const heroi = await heroiModel.excluirHeroi(id);
 
     res.status(201).send("Herói dispensado...");
   } catch (error) {
+    console.error(error);
     res.status(500).send("Erro ao dispensar...");
   }
 };

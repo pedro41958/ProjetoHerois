@@ -13,5 +13,7 @@ const schemaEditarPerfil = z.object({
   senhaNova: z.string().min(8, "Mínimo 8 caracteres!"),
 });
 
-module.exports = schemaCadastroUsuarios;
-module.exports = schemaEditarPerfil;
+module.exports = {
+  schemaCadastroUsuarios,
+  schemaEditarPerfil,
+};

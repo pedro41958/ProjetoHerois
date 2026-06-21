@@ -3,8 +3,10 @@ const bcrypt = require("bcrypt");
 const UsuarioModel = require("../models/UsuarioModel");
 
 const { gerarToken } = require("../middlewares/usuarioJWT");
-const schemaCadastroUsuarios = require("../schemas/usuarioSchema");
-const schemaEditarPerfil = require("../schemas/usuarioSchema");
+const {
+  schemaCadastroUsuarios,
+  schemaEditarPerfil,
+} = require("../schemas/usuarioSchema");
 
 exports.cadastroUsuario = async (req, res) => {
   const resultado = schemaCadastroUsuarios.safeParse(req.body);

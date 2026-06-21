@@ -11,10 +11,18 @@ function Perfil() {
       <h1 className="bg-slate-500 text-white w-full text-center p-2 mb-6 font-semibold">
         Bem-vindo treinador {usuario.nome}!
       </h1>
-      <div className="flex flex-col bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400">
-        <h1>Perfil do Treinador:</h1>
-        <p>NOME: {usuario.nome}</p>
-        <p>E-MAIL: {usuario.email}</p>
+      <div className="flex flex-col bg-white rounded-xl shadow-md border-4 border-gray-400 w-96">
+        <h1 className="bg-slate-500 text-white w-full text-center p-2 mb-6 font-semibold rounded-t-lg">
+          Perfil do Treinador
+        </h1>
+        <p className="m-5">
+          <span className="font-bold mr-10">NOME:</span>
+          {usuario.nome}
+        </p>
+        <p className="m-5">
+          <span className="font-bold mr-9">E-MAIL:</span>
+          {usuario.email}
+        </p>
 
         <button
           className="p-2 m-5 rounded text-white font-semibold bg-[#9870AA] cursor-pointer"

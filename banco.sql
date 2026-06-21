@@ -14,7 +14,7 @@ CREATE TABLE herois (
   nome VARCHAR(100) NOT NULL,
   classe ENUM('Sprint', 'Mile', 'Medium', 'Long') NOT NULL,
   poder INT NOT NULL,
-  url_imagem VARCHAR(255),
+  url_imagem TEXT,
 
   id_usuario INT NOT NULL,
   id_guilda INT NOT NULL,
@@ -38,3 +38,5 @@ CREATE TABLE missoes (
 
   FOREIGN KEY (id_heroi) REFERENCES herois(id_heroi)
 );
+
+INSERT INTO guildas(nome) VALUES('Time Spica');

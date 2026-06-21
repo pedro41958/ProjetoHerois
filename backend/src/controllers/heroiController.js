@@ -1,33 +1,47 @@
 const { success } = require("zod");
 const db = require("../config/db");
-const schema = require("../schemas/heroiSchema");
+const schemaCadastroHerois = require("../schemas/heroiSchema");
+const HeroiModel = require("../models/HeroiModel");
 
-exports.cadastarHeroi = async (req, res) => {
-  const resultado = schema.safeParse(req.body);
+exports.cadastrarHeroi = async (req, res) => {
+  const resultado = schemaCadastroHerois.safeParse(req.body);
 
   if (!resultado.success) {
     return res.status(400).json(resultado.error.issues);
   }
 
-  const { nome, classe, poder, status } = resultado.data;
+  const idUsuario = req.usuario.id;
+
+  const { nome, classe, poder, url_imagem, id_guilda } = resultado.data;
+
+  const heroiModel = new HeroiModel();
 
   try {
-    const cadastarHeroi = await db.query(
-      "INSERT INTO herois(nome, classe, poder, status) VALUES(?, ?, ?, ?)",
-      [nome, classe, poder, status],
+    await heroiModel.cadastarHeroi(
+      nome,
+      classe,
+      poder,
+      url_imagem,
+      idUsuario,
+      id_guilda,
     );
 
     res.status(201).send("Herói cadastrado!");
   } catch (error) {
-    res.status(500).send("Erro ao cadastrar!");
+    console.log(error);
+    res.status(500).json(error);
   }
 };
 
 exports.listarHerois = async (req, res) => {
-  try {
-    const [rows] = await db.query("SELECT * FROM herois");
+  const idUsuario = req.usuario.id;
 
-    res.json(rows);
+  try {
+    const heroiModel = new HeroiModel();
+
+    const herois = await heroiModel.listarHerois(idUsuario);
+
+    res.json(herois);
   } catch (error) {
     res.status(500).send("Erro ao trazer heróis!");
   }

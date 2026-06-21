@@ -1,38 +1,70 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
+import api from "../api/api";
 
 const schema = z.object({
   nome: z.string().min(3, "Mínimo 3 caracteres!"),
-  classe: z.enum(["Mile", "Medium", "Long"], "Classe inválida!"),
+  classe: z.enum(["Sprint", "Mile", "Medium", "Long"], "Classe inválida!"),
   poder: z.coerce
     .number()
     .min(0, "Mínimo poder 0!")
     .max(100, "Máximo poder 100!"),
-  status: z.enum(["online", "ausente", "offline"], "Status inválido!"),
+  url_imagem: z.string().trim().min(1, "Insira a URL de uma imagem!"),
+  id_guilda: z.coerce.number().min(1, "Escolha um time!"),
 });
 
 export default function Formulario() {
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (novoHeroi) => {
-      return axios.post("http://localhost:3000/cadastrarHeroi", novoHeroi);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["herois"] });
-    },
-  });
-
   const [formData, setFormData] = useState({
     nome: "",
     classe: "",
     poder: "",
-    status: "",
+    url_imagem: "",
+    id_guilda: "",
   });
 
   const [erros, setErros] = useState({});
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (novoHeroi) => {
+      return api.post("/cadastrarHeroi", novoHeroi);
+    },
+    onSuccess: () => {
+      alert("Herói cadastrado!");
+      queryClient.invalidateQueries({
+        queryKey: ["herois"],
+      });
+    },
+
+    onError: (erro) => {
+      console.log(erro.response?.data);
+      alert("Erro ao cadastrar.");
+    },
+  });
+
+  const {
+    data: guildas,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["guildas"],
+    queryFn: async function buscarGuildas() {
+      const { data } = await api.get("/buscarGuildas");
+      return data;
+    },
+  });
+
+  if (isLoading)
+    return (
+      <div className="flex">
+        <p>Carregando...</p>
+      </div>
+    );
+
+  if (error) return "Erro!";
 
   function handleChange(e) {
     setFormData({
@@ -51,10 +83,8 @@ export default function Formulario() {
     } else {
       setErros({});
 
+      console.log(resultado.data);
       mutate(resultado.data);
-
-      console.log("Um novo herói foi validado e salvo!");
-      alert("Formulário enviado com sucesso!");
     }
   }
 
@@ -81,7 +111,8 @@ export default function Formulario() {
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2 cursor-pointer"
         >
-          <option value="null">Selecione a Classe</option>
+          <option value="">Selecione uma Classe</option>
+          <option value="Sprint">Sprint</option>
           <option value="Mile">Mile</option>
           <option value="Medium">Medium</option>
           <option value="Long">Long</option>
@@ -97,17 +128,33 @@ export default function Formulario() {
         />
         {erros.poder && <p className="text-red-500">{erros.poder._errors}</p>}
 
+        <input
+          type="url"
+          name="url_imagem"
+          placeholder="URL da imagem"
+          onChange={handleChange}
+          className="border p-2 rounded w-full mb-2"
+        />
+        {erros.url_imagem && (
+          <p className="text-red-500">{erros.url_imagem._errors}</p>
+        )}
+
         <select
-          name="status"
+          name="id_guilda"
           onChange={handleChange}
           className="border p-2 rounded w-full mb-2 cursor-pointer"
         >
-          <option value="null">Selecione o Status</option>
-          <option value="online">Online</option>
-          <option value="ausente">Ausente</option>
-          <option value="offline">Offline</option>
+          <option value="">Selecione uma Guilda</option>
+
+          {guildas.map((guilda) => (
+            <option key={guilda.id_guilda} value={guilda.id_guilda}>
+              {guilda.nome}
+            </option>
+          ))}
         </select>
-        {erros.status && <p className="text-red-500">{erros.status._errors}</p>}
+        {erros.id_guilda && (
+          <p className="text-red-500">{erros.id_guilda._errors}</p>
+        )}
 
         <button
           disabled={isPending}

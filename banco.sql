@@ -9,6 +9,15 @@ CREATE TABLE usuarios (
   senha varchar(100) NOT NULL
 );
 
+CREATE TABLE guildas (
+  id_guilda INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+
+  id_usuario INT NOT NULL,
+
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
 CREATE TABLE herois (
   id_heroi INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(100) NOT NULL,
@@ -23,11 +32,6 @@ CREATE TABLE herois (
   FOREIGN KEY (id_guilda) REFERENCES guildas(id_guilda)
 );
 
-CREATE TABLE guildas (
-  id_guilda INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(100) NOT NULL
-);
-
 CREATE TABLE missoes (
   id_missao INT AUTO_INCREMENT PRIMARY KEY,
   descricao VARCHAR(255) NOT NULL,
@@ -38,5 +42,3 @@ CREATE TABLE missoes (
 
   FOREIGN KEY (id_heroi) REFERENCES herois(id_heroi)
 );
-
-INSERT INTO guildas(nome) VALUES('Time Spica');

@@ -112,7 +112,7 @@ export default function CadastrarHeroi({ fecharModal }) {
         </label>
 
         <label htmlFor="classe" className="text-center">
-          Nome completo:
+          Classe:
           <select
             name="classe"
             onChange={handleChange}

@@ -1,5 +1,6 @@
 import Card from "./Card.jsx";
 import CadastrarHeroi from "./CadastrarHerois.jsx";
+import CadastrarGuilda from "./CadastrarGuilda.jsx";
 import axios from "axios";
 import { useEffect, useState, useMemo } from "react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
@@ -8,7 +9,8 @@ import api from "../api/api";
 function Herois() {
   const queryClient = useQueryClient();
 
-  const [abrirModal, setAbrirModal] = useState(false);
+  const [abrirModalHeroi, setAbrirModalHeroi] = useState(false);
+  const [abrirModalGuilda, setAbrirModalGuilda] = useState(false);
   const [busca, setBusca] = useState("");
 
   const { mutate } = useMutation({
@@ -69,7 +71,7 @@ function Herois() {
         <div className="flex justify-around bg-slate-600 text-white w-full text-center p-2 mb-6 font-semibold">
           <button
             className="p-2 rounded text-white font-semibold bg-[#9870AA] cursor-pointer w-50"
-            onClick={() => setAbrirModal(true)}
+            onClick={() => setAbrirModalHeroi(true)}
           >
             Recrutar Umamusume!
           </button>
@@ -80,12 +82,18 @@ function Herois() {
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
           />
-          <button className="p-2 rounded text-white font-semibold bg-[#9870AA] cursor-pointer w-50">
+          <button
+            className="p-2 rounded text-white font-semibold bg-[#9870AA] cursor-pointer w-50"
+            onClick={() => setAbrirModalGuilda(true)}
+          >
             Criar novo Time!
           </button>
         </div>
-        {abrirModal && (
-          <CadastrarHeroi fecharModal={() => setAbrirModal(false)} />
+        {abrirModalHeroi && (
+          <CadastrarHeroi fecharModal={() => setAbrirModalHeroi(false)} />
+        )}
+        {abrirModalGuilda && (
+          <CadastrarGuilda fecharModal={() => setAbrirModalGuilda(false)} />
         )}
       </div>
       <div className="flex flex-wrap justify-center">

@@ -5,6 +5,7 @@ import LoginUsuario from "../components/LoginUsuario";
 import CadastroUsuario from "../components/CadastroUsuario";
 import Perfil from "../components/Perfil";
 import Herois from "../components/Herois";
+import HeroiDetalhes from "../components/HeroiDetalhes";
 
 function Rotas() {
   return (
@@ -25,6 +26,14 @@ function Rotas() {
         element={
           <PrivateRoute>
             <Herois />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/herois/:id"
+        element={
+          <PrivateRoute>
+            <HeroiDetalhes />
           </PrivateRoute>
         }
       />

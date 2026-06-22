@@ -1,5 +1,5 @@
 import { useState } from "react";
-import StatusBadge from "./StatusBadge";
+import { Link, useNavigate } from "react-router-dom";
 
 function Card({ heroi, dispensarHeroi }) {
   const [xp, setXp] = useState(0);
@@ -7,6 +7,8 @@ function Card({ heroi, dispensarHeroi }) {
   const [mostrarMsg, setMostrarMsg] = useState(false);
   const [selecionado, setSelecionado] = useState(false);
   const [levelUp, setLevelUp] = useState(false);
+
+  const navigate = useNavigate();
 
   let cor = "border-4 border-gray-400";
 
@@ -95,9 +97,11 @@ function Card({ heroi, dispensarHeroi }) {
 
       <button
         className="cursor-pointer m-2.5 mt-8 bg-purple-500 text-white py-2 px-4 rounded shadow-md"
-        onClick={() => alert(`Você recrutou ${heroi.nome} para o seu time!`)}
+        onClick={() => {
+          navigate(`/herois/${heroi.id_heroi}`);
+        }}
       >
-        Recrutar!
+        Detalhes
       </button>
 
       <button

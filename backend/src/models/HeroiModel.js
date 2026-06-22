@@ -21,8 +21,30 @@ class HeroiModel {
     return resultado;
   }
 
+  async buscarHeroi(id) {
+    const [resultado] = await db.query(
+      `SELECT herois.*, guildas.nome AS nome_guilda
+      FROM herois
+      LEFT JOIN guildas
+        ON herois.id_guilda = guildas.id_guilda
+      WHERE herois.id_usuario = ?`,
+      [id],
+    );
+
+    return resultado[0];
+  }
+
   async excluirHeroi(id) {
     await db.query("DELETE FROM herois WHERE id_heroi = ?", [id]);
+  }
+
+  async editarHeroi(id, nome, classe, poder) {
+    await db.query(
+      `UPDATE herois
+          SET nome = ?, classe = ?, poder = ?
+          WHERE id_heroi = ?`,
+      [nome, classe, poder, id],
+    );
   }
 }
 

@@ -1,6 +1,9 @@
 const { success } = require("zod");
 const db = require("../config/db");
-const schemaCadastroHerois = require("../schemas/heroiSchema");
+const {
+  schemaCadastroHerois,
+  schemaEditarHeroi,
+} = require("../schemas/heroiSchema");
 const HeroiModel = require("../models/HeroiModel");
 
 exports.cadastrarHeroi = async (req, res) => {
@@ -47,6 +50,24 @@ exports.listarHerois = async (req, res) => {
   }
 };
 
+exports.buscarHeroi = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const heroiModel = new HeroiModel();
+
+    const heroi = await heroiModel.buscarHeroi(id);
+
+    if (!heroi) {
+      return res.status(404).json({ mensagem: "Herói não encontrado" });
+    }
+
+    res.json(heroi);
+  } catch (error) {
+    res.status(500).send("Erro ao trazer herói!");
+  }
+};
+
 exports.dispensarHeroi = async (req, res) => {
   const { id } = req.body;
 
@@ -60,4 +81,29 @@ exports.dispensarHeroi = async (req, res) => {
     console.error(error);
     res.status(500).send("Erro ao dispensar...");
   }
+
+  exports.editarPerfil = async (req, res) => {
+    const resultado = schemaEditarHeroi.safeParse(req.body);
+    const { id } = req.params;
+
+    if (!resultado.success) {
+      return res.status(400).json(resultado.error.issues);
+    }
+
+    const { nome, classe, poder } = resultado.data;
+
+    try {
+      const heroiModel = new HeroiModel();
+
+      const heroi = await heroiModel.editarHeroi(id, nome, classe, poder);
+
+      res.status(200).json({
+        message: "Perfil atualizado!",
+        auth: true,
+        heroi,
+      });
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  };
 };

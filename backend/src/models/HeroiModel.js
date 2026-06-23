@@ -27,7 +27,7 @@ class HeroiModel {
       FROM herois
       LEFT JOIN guildas
         ON herois.id_guilda = guildas.id_guilda
-      WHERE herois.id_usuario = ?`,
+      WHERE herois.id_heroi = ?`,
       [id],
     );
 

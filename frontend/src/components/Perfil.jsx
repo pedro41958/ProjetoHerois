@@ -1,17 +1,52 @@
 import { useUsuario } from "../context/UsuarioContext";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import EditarPerfil from "./EditarPerfil";
+import api from "../api/api";
 
 function Perfil() {
   const { usuario } = useUsuario();
   const [abrirModal, setAbrirModal] = useState(false);
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["dados"],
+    queryFn: async function trazerDados() {
+      const { data } = await api.get("/trazerDados");
+      return data;
+    },
+  });
+
+  if (isLoading)
+    return (
+      <div className="flex">
+        <p>Carregando...</p>
+      </div>
+    );
+
+  if (error) return "Erro!";
 
   return (
     <div className="flex flex-col items-center bg-slate-100 shadow-md h-screen">
       <h1 className="bg-slate-500 text-white w-full text-center p-2 mb-6 font-semibold">
         Bem-vindo treinador <strong>{usuario.nome}</strong>!
       </h1>
-      <div className="flex flex-col bg-white rounded-xl shadow-md border-4 border-gray-400 w-96">
+
+      <div className="flex flex-row justify-between w-200">
+        <div className="flex flex-col items-center bg-white rounded-xl shadow-md border-4 border-gray-400 w-55 font-semibold">
+          <p>Umamusumes recrutadas:</p>
+          <p className="font-normal">{data.total_herois}</p>
+        </div>
+        <div className="flex flex-col items-center bg-white rounded-xl shadow-md border-4 border-gray-400 w-55 font-semibold">
+          <p>Média de poder:</p>
+          <p className="font-normal">{data.media_poder}</p>
+        </div>
+        <div className="flex flex-col items-center bg-white rounded-xl shadow-md border-4 border-gray-400 w-55 font-semibold">
+          <p>Time mais forte:</p>
+          <p className="font-normal">{data.guilda_mais_forte}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col mt-10 bg-white rounded-xl shadow-md border-4 border-gray-400 w-96">
         <h1 className="bg-slate-500 text-white w-full text-center p-2 mb-6 font-semibold rounded-t-lg">
           Perfil do Treinador
         </h1>

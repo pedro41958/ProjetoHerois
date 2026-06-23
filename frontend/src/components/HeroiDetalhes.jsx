@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/api";
 import EditarHeroi from "./EditarHeroi";
+import ListarMissoes from "./ListarMissoes";
 
 function HeroiDetalhes() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ function HeroiDetalhes() {
       <h1 className="bg-slate-500 text-white w-full text-center p-2 mb-6 font-semibold">
         Detalhes de <strong>{heroi.nome}</strong>!
       </h1>
-      <div className="grid grid-cols-3 border-4 border-gray-400 rounded-xl p-4 m-2.5 shadow-md text-center h-3/5 w-300 bg-white">
+      <div className="grid grid-cols-3 gap-10 border-4 border-gray-400 rounded-xl p-4 m-2.5 shadow-md text-center h-3/5 bg-white">
         <div>
           <div>
             Poder: <strong>{heroi.poder}</strong>
@@ -52,12 +53,13 @@ function HeroiDetalhes() {
           </p>
 
           <button
-            className="cursor-pointer m-2.5 mt-8 bg-purple-500 text-white py-2 px-4 rounded shadow-md"
+            className="cursor-pointer m-2.5 bg-purple-500 text-white py-2 px-4 font-semibold rounded shadow-md"
             onClick={() => navigate("/herois")}
           >
             Sair
           </button>
         </div>
+        <ListarMissoes />
         <EditarHeroi />
       </div>
     </div>

@@ -2,7 +2,7 @@ const { success } = require("zod");
 const db = require("../config/db");
 
 const schemaCriarMissao = require("../schemas/missaoSchema");
-const MissaoModel = require("../models/HeroiModel");
+const MissaoModel = require("../models/MissaoModel");
 
 exports.criarMissao = async (req, res) => {
   const resultado = schemaCriarMissao.safeParse(req.body);
@@ -26,12 +26,12 @@ exports.criarMissao = async (req, res) => {
 };
 
 exports.listarMissoes = async (req, res) => {
-  const idHeroi = req.params;
+  const { id } = req.params;
 
   try {
     const missaoModel = new MissaoModel();
 
-    const missoes = await missaoModel.listarMissoes(idHeroi);
+    const missoes = await missaoModel.listarMissoes(id);
 
     res.json(missoes);
   } catch (error) {

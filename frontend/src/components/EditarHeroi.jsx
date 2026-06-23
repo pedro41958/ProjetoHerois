@@ -19,7 +19,7 @@ function EditarHeroi({ fecharModal }) {
       return api.put(`/herois/${id}`, heroiEditado);
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["herois"] });
+      queryClient.invalidateQueries({ queryKey: ["herois", id] });
       alert("Umamusume atualizada com sucesso!");
       location.reload();
     },
@@ -58,14 +58,15 @@ function EditarHeroi({ fecharModal }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center shadow-md h-auto">
+    <div className="flex flex-col items-center shadow-md h-full rounded-xl w-70 border-4 border-gray-400">
+      <h2 className="bg-slate-500 text-white w-full text-center rounded-t-lg p-2 font-semibold">
+        Editar dados da Umamusume
+      </h2>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400"
+        className="flex flex-col justify-between bg-white p-6 w-auto rounded-xl"
       >
         <input type="hidden" name="id" />
-
-        <h2 className="text-x1 font-bold mb-4">Editar dados da Umamusume</h2>
 
         <label htmlFor="nome" className="text-center">
           Nome:

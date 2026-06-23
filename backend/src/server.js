@@ -7,7 +7,12 @@ const missaoRouter = require("./routes/missaoRoutes");
 const dadosRouter = require("./routes/dadosRoutes");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://projeto-herois-iota.vercel.app"],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 app.use(heroiRouter);

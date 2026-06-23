@@ -35,7 +35,13 @@ class HeroiModel {
   }
 
   async excluirHeroi(id) {
-    await db.query("DELETE FROM herois WHERE id_heroi = ?", [id]);
+    await db.query("DELETE FROM missoes WHERE id_heroi = ?", [id]);
+
+    const [resultado] = await db.query(
+      "DELETE FROM herois WHERE id_heroi = ?",
+      [id],
+    );
+    return resultado;
   }
 
   async editarHeroi(id, nome, classe, poder) {

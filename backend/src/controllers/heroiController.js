@@ -71,6 +71,8 @@ exports.buscarHeroi = async (req, res) => {
 exports.dispensarHeroi = async (req, res) => {
   const { id } = req.body;
 
+  console.log(id);
+
   try {
     const heroiModel = new HeroiModel();
 

@@ -1,34 +1,27 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { z } from "zod";
 import api from "../api/api";
-import { useUsuario } from "../context/UsuarioContext";
-import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   nome: z.string().min(3, "Mínimo 3 caracteres!"),
   classe: z.enum(["Sprint", "Mile", "Medium", "Long"], "Classe inválida!"),
-  poder: z.coerce
-    .number()
-    .min(0, "Mínimo poder 0!")
-    .max(100, "Máximo poder 100!"),
+  poder: z.coerce.number().min(0, "Mínimo poder 0!"),
 });
 
-function EditarPerfil({ fecharModal }) {
+function EditarHeroi({ fecharModal }) {
   const queryClient = useQueryClient();
-  const { setUsuario } = useUsuario();
-  const navigate = useNavigate();
+  const { id } = useParams();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (usuarioEditado) => {
-      return api.put("/editarPerfil", usuarioEditado);
+    mutationFn: (heroiEditado) => {
+      return api.put(`/herois/${id}`, heroiEditado);
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["usuarios"] });
-      setUsuario(response.data.usuario);
-      alert("Perfil atualizado com sucesso!");
-      navigate("/perfil");
-      fecharModal();
+      queryClient.invalidateQueries({ queryKey: ["herois"] });
+      alert("Umamusume atualizada com sucesso!");
+      location.reload();
     },
     onError: (error) => {
       alert(error.response?.data);
@@ -37,9 +30,8 @@ function EditarPerfil({ fecharModal }) {
 
   const [formData, setFormData] = useState({
     nome: "",
-    email: "",
-    senhaAtual: "",
-    senhaNova: "",
+    classe: "",
+    poder: "",
   });
 
   const [erros, setErros] = useState({});
@@ -66,64 +58,55 @@ function EditarPerfil({ fecharModal }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center shadow-md h-screen">
+    <div className="flex flex-col items-center justify-center shadow-md h-auto">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col bg-white p-6 rounded-xl shadow-md w-80 border-4 border-gray-400"
       >
-        <h2 className="text-x1 text-center font-bold mb-4">Editar Perfil</h2>
+        <input type="hidden" name="id" />
+
+        <h2 className="text-x1 font-bold mb-4">Editar dados da Umamusume</h2>
 
         <label htmlFor="nome" className="text-center">
-          Nome completo:
+          Nome:
           <input
             type="text"
             name="nome"
-            placeholder="Nome completo"
+            placeholder="Nome"
             onChange={handleChange}
             className="border p-2 rounded w-full mb-2"
-            required
           />
           {erros.nome && <p className="text-red-500">{erros.nome._errors}</p>}
         </label>
 
-        <label htmlFor="email" className="text-center">
-          E-mail:
-          <input
-            type="email"
-            name="email"
-            placeholder="E-mail"
+        <label htmlFor="classe" className="text-center">
+          Classe:
+          <select
+            name="classe"
             onChange={handleChange}
-            className="border p-2 rounded w-full mb-2"
-            required
-          />
-          {erros.email && <p className="text-red-500">{erros.email._errors}</p>}
-        </label>
-
-        <label htmlFor="senha" className="text-center">
-          Senha ATUAL:
-          <input
-            type="password"
-            name="senhaAtual"
-            placeholder="Senha atual"
-            onChange={handleChange}
-            className="border p-2 rounded w-full mb-2"
-            required
-          />
-        </label>
-
-        <label htmlFor="senha" className="text-center">
-          Senha NOVA:
-          <input
-            type="password"
-            name="senhaNova"
-            placeholder="Senha nova"
-            onChange={handleChange}
-            className="border p-2 rounded w-full mb-2"
-            required
-          />
-          {erros.senhaNova && (
-            <p className="text-red-500">{erros.senhaNova._errors}</p>
+            className="border p-2 rounded w-full mb-2 cursor-pointer"
+          >
+            <option value="">Selecione uma Classe</option>
+            <option value="Sprint">Sprint</option>
+            <option value="Mile">Mile</option>
+            <option value="Medium">Medium</option>
+            <option value="Long">Long</option>
+          </select>
+          {erros.classe && (
+            <p className="text-red-500">{erros.classe._errors}</p>
           )}
+        </label>
+
+        <label htmlFor="poder" className="text-center">
+          Poder:
+          <input
+            type="number"
+            name="poder"
+            placeholder="Poder"
+            onChange={handleChange}
+            className="border p-2 rounded w-full mb-2"
+          />
+          {erros.poder && <p className="text-red-500">{erros.poder._errors}</p>}
         </label>
 
         <button
@@ -134,17 +117,11 @@ function EditarPerfil({ fecharModal }) {
               : "bg-[#9870AA] cursor-pointer"
           }`}
         >
-          {isPending ? "Salvando..." : "Atualizar"}
-        </button>
-        <button
-          onClick={fecharModal}
-          className="p-2 m-5 mt-0 rounded text-white font-semibold cursor-pointer bg-gray-400"
-        >
-          Sair
+          {isPending ? "Salvando..." : "Salvar"}
         </button>
       </form>
     </div>
   );
 }
 
-export default EditarPerfil;
+export default EditarHeroi;

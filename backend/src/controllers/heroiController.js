@@ -81,29 +81,29 @@ exports.dispensarHeroi = async (req, res) => {
     console.error(error);
     res.status(500).send("Erro ao dispensar...");
   }
+};
 
-  exports.editarPerfil = async (req, res) => {
-    const resultado = schemaEditarHeroi.safeParse(req.body);
-    const { id } = req.params;
+exports.editarHeroi = async (req, res) => {
+  const resultado = schemaEditarHeroi.safeParse(req.body);
+  const { id } = req.params;
 
-    if (!resultado.success) {
-      return res.status(400).json(resultado.error.issues);
-    }
+  if (!resultado.success) {
+    return res.status(400).json(resultado.error.issues);
+  }
 
-    const { nome, classe, poder } = resultado.data;
+  const { nome, classe, poder } = resultado.data;
 
-    try {
-      const heroiModel = new HeroiModel();
+  try {
+    const heroiModel = new HeroiModel();
 
-      const heroi = await heroiModel.editarHeroi(id, nome, classe, poder);
+    const heroi = await heroiModel.editarHeroi(id, nome, classe, poder);
 
-      res.status(200).json({
-        message: "Perfil atualizado!",
-        auth: true,
-        heroi,
-      });
-    } catch (error) {
-      res.status(500).send(error.message);
-    }
-  };
+    res.status(200).json({
+      message: "Perfil atualizado!",
+      auth: true,
+      heroi,
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 };

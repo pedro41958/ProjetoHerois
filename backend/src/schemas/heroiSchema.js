@@ -14,10 +14,7 @@ const schemaCadastroHerois = z.object({
 const schemaEditarHeroi = z.object({
   nome: z.string().min(3, "Mínimo 3 caracteres!"),
   classe: z.enum(["Sprint", "Mile", "Medium", "Long"], "Classe inválida!"),
-  poder: z.coerce
-    .number()
-    .min(0, "Mínimo poder 0!")
-    .max(100, "Máximo poder 100!"),
+  poder: z.coerce.number().min(0, "Mínimo poder 0!"),
 });
 
 module.exports = { schemaCadastroHerois, schemaEditarHeroi };

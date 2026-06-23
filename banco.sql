@@ -35,7 +35,7 @@ CREATE TABLE herois (
 CREATE TABLE missoes (
   id_missao INT AUTO_INCREMENT PRIMARY KEY,
   descricao VARCHAR(255) NOT NULL,
-  status ENUM('Em andamento', 'Concluida', 'Falhou') NOT NULL,
+  status ENUM('Em treinamento', 'Vitória', 'Derrota') NOT NULL,
   recompensa_ouro INT NOT NULL,
 
   id_heroi INT NOT NULL,

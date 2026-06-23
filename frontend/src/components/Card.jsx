@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function Card({ heroi, dispensarHeroi }) {
   const [xp, setXp] = useState(0);
@@ -104,12 +105,18 @@ function Card({ heroi, dispensarHeroi }) {
         Detalhes
       </button>
 
-      <button
+      <motion.button
+        whileHover={{
+          scale: 1.08,
+        }}
+        whileTap={{
+          scale: 0.92,
+        }}
         className="cursor-pointer ml-2.5 mr-2.5 mb-2.5 mt-0.5 bg-rose-500 text-white py-2 px-4 rounded shadow-md"
         onClick={() => dispensarHeroi(heroi.id_heroi)}
       >
         Dispensar
-      </button>
+      </motion.button>
     </div>
   );
 }
